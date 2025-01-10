@@ -2,22 +2,20 @@ use crate::{config::Config, volume::VolumeData};
 
 pub fn set(config: &Config, volume_data: &VolumeData) {
     // Commands : eww update <value_name>=<value>
-    std::process::Command::new(&config.eww_binary_path)
+    let _ = std::process::Command::new(&config.eww_binary_path)
         .arg("update")
         .arg(format!(
             "{}={:.2}",
             &config.eww_value_name, volume_data.volume
         ))
-        .output()
-        .unwrap();
-    std::process::Command::new(&config.eww_binary_path)
+        .output();
+    let _ = std::process::Command::new(&config.eww_binary_path)
         .arg("update")
         .arg(format!(
             "{}={}",
             &config.eww_value_string_name, &volume_data.volume_string
         ))
-        .output()
-        .unwrap();
+        .output();
 }
 
 fn is_window_open(cfg: &Config, window: &str) -> bool {
@@ -36,20 +34,18 @@ fn is_window_open(cfg: &Config, window: &str) -> bool {
 
 pub fn show(config: &Config) {
     if !is_window_open(config, &config.eww_window_name) {
-        std::process::Command::new(&config.eww_binary_path)
+        let _ = std::process::Command::new(&config.eww_binary_path)
             .arg("open")
             .arg(&config.eww_window_name)
-            .output()
-            .unwrap();
+            .output();
     }
 }
 
 pub fn close(config: &Config) {
     if is_window_open(config, &config.eww_window_name) {
-        std::process::Command::new(&config.eww_binary_path)
+        let _ = std::process::Command::new(&config.eww_binary_path)
             .arg("close")
             .arg(&config.eww_window_name)
-            .output()
-            .unwrap();
+            .output();
     }
 }
